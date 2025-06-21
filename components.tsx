@@ -21,15 +21,35 @@ export const useTheme = (): ThemeContextType => {
 
 // Logo Component
 export const Logo: React.FC<{ size?: 'sm' | 'md' | 'lg', className?: string }> = ({ size = 'md', className }) => {
-  const sizeClasses = {
+  const symbolSizeClasses = {
     sm: 'w-8 h-8',
-    md: 'w-12 h-12',
-    lg: 'w-16 h-16',
+    md: 'w-10 h-10',
+    lg: 'w-12 h-12',
   };
+  const appNameTextSizeClasses = { 
+    sm: 'text-2xl',
+    md: 'text-3xl',
+    lg: 'text-4xl',
+  };
+  const taglineTextSizeClasses = {
+    sm: 'text-[10px]', 
+    md: 'text-xs',    
+    lg: 'text-sm',    
+  };
+
   return (
     <div className={`flex items-center space-x-2 ${className}`}>
-      <AppLogoSymbol className={sizeClasses[size]} />
-      <span className={`font-bold text-xl ${size === 'lg' ? 'md:text-2xl' : ''} dark:text-white text-slate-800`}>Blissful</span>
+      <AppLogoSymbol className={symbolSizeClasses[size]} />
+      <div className="flex flex-col">
+        <span className={`font-samantha ${appNameTextSizeClasses[size]} dark:text-white text-slate-800 leading-none`}>
+          Blissful
+        </span>
+        <span 
+          className={`font-sans ${taglineTextSizeClasses[size]} text-slate-500 dark:text-slate-400 leading-none tracking-wide`}
+        >
+          Maharishi World
+        </span>
+      </div>
     </div>
   );
 };
@@ -315,8 +335,9 @@ interface ScreenHeaderProps {
   showBackButton?: boolean;
   onBackClick?: () => void; // Optional custom back button handler
   actions?: React.ReactNode;
+  showLogo?: boolean;
 }
-export const ScreenHeader: React.FC<ScreenHeaderProps> = ({ title, showBackButton = false, onBackClick, actions }) => {
+export const ScreenHeader: React.FC<ScreenHeaderProps> = ({ title, showBackButton = false, onBackClick, actions, showLogo = false }) => {
     const navigate = useNavigate();
     
     const handleBack = () => {
@@ -337,7 +358,10 @@ export const ScreenHeader: React.FC<ScreenHeaderProps> = ({ title, showBackButto
                 )}
                 <h1 className="text-xl font-semibold text-slate-800 dark:text-slate-100">{title}</h1>
             </div>
-            {actions && <div className="flex items-center space-x-2">{actions}</div>}
+            <div className="flex items-center space-x-2">
+                {actions}
+                {showLogo && <Logo size="sm" />}
+            </div>
         </header>
     );
 };

@@ -30,7 +30,7 @@ export const SplashScreen: React.FC = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       navigate('/onboarding');
-    }, 2500); // Splash screen duration
+    }, 3000); // Splash screen duration updated to 3 seconds
     return () => clearTimeout(timer);
   }, [navigate]);
 
@@ -345,6 +345,80 @@ const CategoryChip: React.FC<{ category: string, isActive: boolean, onClick: () 
     </button>
   );
 
+// WeeklyListeningChart Component
+const WeeklyListeningChart: React.FC<{ patternData: number[] }> = ({ patternData }) => {
+  const svgWidth = 360; // Approximate width of container
+  const svgHeight = 150;
+  const padding = { top: 20, right: 10, bottom: 30, left: 25 }; // Adjusted padding
+  const chartWidth = svgWidth - padding.left - padding.right;
+  const chartHeight = svgHeight - padding.top - padding.bottom;
+
+  const maxValue = Math.max(...patternData, 1); // Avoid division by zero, ensure some height
+  const yScale = chartHeight / maxValue;
+
+  const dayLabels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const numBars = dayLabels.length;
+
+  const barSlotWidth = chartWidth / numBars;
+  const barWidth = barSlotWidth * 0.6; // Bar takes 60% of its slot width
+  const barMargin = (barSlotWidth - barWidth) / 2; // Margin on each side of the bar within its slot
+  
+  return (
+    <Card className="p-0 overflow-hidden">
+      <svg viewBox={`0 0 ${svgWidth} ${svgHeight}`} role="img" aria-labelledby="chartTitle chartDesc" className="w-full">
+        <title id="chartTitle">Weekly Listening Pattern</title>
+        <desc id="chartDesc">A bar chart showing typical listening intensity for each day of the week.</desc>
+        
+        {/* Grid lines */}
+        {[0.25, 0.5, 0.75, 1].map(frac => (
+          <line
+            key={frac}
+            x1={padding.left}
+            y1={padding.top + chartHeight - chartHeight * frac}
+            x2={padding.left + chartWidth}
+            y2={padding.top + chartHeight - chartHeight * frac}
+            className="stroke-slate-200 dark:stroke-slate-700"
+            strokeWidth="0.5"
+            strokeDasharray="2,2"
+          />
+        ))}
+        
+        {/* Bars */}
+        {patternData.map((value, index) => {
+          const barHeight = value * yScale;
+          const x = padding.left + index * barSlotWidth + barMargin;
+          const y = padding.top + chartHeight - barHeight;
+          return (
+            <rect
+              key={index}
+              x={x}
+              y={y}
+              width={barWidth}
+              height={barHeight}
+              className="fill-current text-blue-500 dark:text-blue-400"
+              rx="2" // Slightly rounded corners for bars
+            />
+          );
+        })}
+
+        {/* X-axis labels */}
+        {dayLabels.map((label, index) => (
+          <text 
+            key={label}
+            x={padding.left + index * barSlotWidth + barSlotWidth / 2} 
+            y={svgHeight - padding.bottom + 15}
+            textAnchor="middle"
+            className="text-xs fill-current text-slate-500 dark:text-slate-400"
+          >
+            {label}
+          </text>
+        ))}
+      </svg>
+    </Card>
+  );
+};
+
+
 // Screen: Home / Dashboard
 export const HomeScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -355,6 +429,8 @@ export const HomeScreen: React.FC = () => {
   const [aiRecommendations, setAiRecommendations] = useState<AudioContent[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>(MOCK_CATEGORIES[0]);
   const [isLoading, setIsLoading] = useState(true);
+  const [listeningPatternData] = useState<number[]>([60, 45, 70, 50, 80, 90, 30]); // Mock data for 7 days
+
 
   useEffect(() => {
     // Simulate fetching data
@@ -450,6 +526,15 @@ export const HomeScreen: React.FC = () => {
           </div>
         </section>
       )}
+
+      {/* Your Weekly Listening Pattern */}
+      <section>
+        <h2 className="text-xl font-semibold mb-3 text-slate-700 dark:text-slate-200 flex items-center">
+          <SparklesIcon className="w-5 h-5 mr-2 text-blue-500 dark:text-blue-400"/>
+          Your Weekly Listening Pattern
+        </h2>
+        <WeeklyListeningChart patternData={listeningPatternData} />
+      </section>
 
       {/* Popular in the App */}
       <section>
