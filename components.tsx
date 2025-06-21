@@ -56,11 +56,11 @@ export const Button: React.FC<ButtonProps> = ({
   const baseStyles = 'inline-flex items-center justify-center font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-150';
   
   const variantStyles = {
-    primary: 'bg-indigo-600 hover:bg-indigo-700 text-white focus:ring-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600 dark:focus:ring-indigo-400',
+    primary: 'bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-400',
     secondary: 'bg-slate-200 hover:bg-slate-300 text-slate-700 focus:ring-slate-400 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-100 dark:focus:ring-slate-500',
     danger: 'bg-red-600 hover:bg-red-700 text-white focus:ring-red-500 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-400',
     ghost: 'hover:bg-slate-100 text-slate-700 focus:ring-slate-400 dark:hover:bg-slate-700 dark:text-slate-200 dark:focus:ring-slate-500',
-    link: 'text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 underline p-0',
+    link: 'text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 underline p-0',
   };
 
   const sizeStyles = {
@@ -104,7 +104,7 @@ export const Input: React.FC<InputProps> = ({ label, id, error, Icon, className,
           id={id}
           className={`block w-full px-3 py-2 border rounded-md shadow-sm 
             ${Icon ? 'pl-10' : ''}
-            ${error ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-slate-300 dark:border-slate-600 focus:ring-indigo-500 focus:border-indigo-500'}
+            ${error ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-slate-300 dark:border-slate-600 focus:ring-blue-500 focus:border-blue-500'}
             bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 sm:text-sm ${className}`}
           {...props}
         />
@@ -125,7 +125,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({ label, id, ...props }) => {
       <input
         id={id}
         type="checkbox"
-        className="h-4 w-4 text-indigo-600 border-slate-300 dark:border-slate-600 rounded focus:ring-indigo-500 dark:bg-slate-700 dark:checked:bg-indigo-500"
+        className="h-4 w-4 text-blue-600 border-slate-300 dark:border-slate-600 rounded focus:ring-blue-500 dark:bg-slate-700 dark:checked:bg-blue-500"
         {...props}
       />
       <label htmlFor={id} className="ml-2 block text-sm text-slate-700 dark:text-slate-300">
@@ -180,7 +180,7 @@ export const OtpInput: React.FC<OtpInputProps> = ({ length, onChange }) => {
           onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e.target, index)}
           onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => handleKeyDown(e, index)}
           ref={(el: HTMLInputElement | null) => { inputRefs.current[index] = el; }}
-          className="w-10 h-12 md:w-12 md:h-14 text-center text-xl md:text-2xl font-semibold border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+          className="w-10 h-12 md:w-12 md:h-14 text-center text-xl md:text-2xl font-semibold border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         />
       ))}
     </div>
@@ -260,7 +260,7 @@ export const BottomNavigationBar: React.FC = () => {
             key={item.path}
             onClick={() => navigate(item.path)}
             className={`flex flex-col items-center justify-center space-y-1 p-2 rounded-md transition-colors
-              ${location.startsWith(item.path) ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-500 dark:text-slate-400 hover:text-indigo-500 dark:hover:text-indigo-300'}`}
+              ${location.startsWith(item.path) ? 'text-blue-600 dark:text-blue-400' : 'text-slate-500 dark:text-slate-400 hover:text-blue-500 dark:hover:text-blue-300'}`}
           >
             <item.icon className="w-6 h-6" />
             <span className="text-xs font-medium">{item.label}</span>
@@ -286,7 +286,7 @@ export const PageIndicator: React.FC<PageIndicatorProps> = ({ count, activeIndex
           key={i}
           onClick={() => onDotClick?.(i)}
           className={`w-2.5 h-2.5 rounded-full transition-all duration-300
-            ${i === activeIndex ? 'bg-indigo-600 dark:bg-indigo-400 w-6' : 'bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500'}`}
+            ${i === activeIndex ? 'bg-blue-600 dark:bg-blue-400 w-6' : 'bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500'}`}
           aria-label={`Go to page ${i + 1}`}
         />
       ))}
@@ -380,7 +380,7 @@ export const CountryCodeSelector: React.FC<CountryCodeSelectorProps> = ({ value,
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="h-full rounded-md rounded-r-none border-0 bg-transparent py-0 pl-3 pr-7 text-slate-500 dark:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+      className="h-full rounded-md rounded-r-none border-0 bg-transparent py-0 pl-3 pr-7 text-slate-500 dark:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm"
     >
       {options.map(opt => <option key={opt.code} value={opt.code}>{opt.code} ({opt.name})</option>)}
     </select>
@@ -400,7 +400,7 @@ export const DayChip: React.FC<DayChipProps> = ({ day, isSelected, onToggle }) =
       onClick={onToggle}
       className={`w-10 h-10 rounded-full border flex items-center justify-center text-sm font-medium transition-colors
         ${isSelected
-          ? 'bg-indigo-600 text-white border-indigo-600 dark:bg-indigo-500 dark:border-indigo-500'
+          ? 'bg-blue-600 text-white border-blue-600 dark:bg-blue-500 dark:border-blue-500'
           : 'bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600'
         }`}
     >
@@ -419,7 +419,7 @@ export const LoadingSpinner: React.FC<{ size?: 'sm' | 'md' | 'lg', message?: str
   return (
     <div className="flex flex-col items-center justify-center p-8 text-center">
       <svg
-        className={`animate-spin text-indigo-500 dark:text-indigo-400 ${sizeClasses[size]}`}
+        className={`animate-spin text-blue-500 dark:text-blue-400 ${sizeClasses[size]}`}
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
@@ -445,7 +445,7 @@ interface TagProps {
   className?: string; 
 }
 export const Tag: React.FC<TagProps> = ({ children, color = 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200', selected, onClick, className = '' }) => {
-    const selectedClasses = selected ? 'ring-2 ring-indigo-500 dark:ring-indigo-400 bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-200' : '';
+    const selectedClasses = selected ? 'ring-2 ring-blue-500 dark:ring-blue-400 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-200' : '';
     return (
         <span
             onClick={onClick}
@@ -468,7 +468,7 @@ export const Alert: React.FC<AlertProps> = ({ type, message, onClose }) => {
     success: "bg-green-50 dark:bg-green-900 text-green-700 dark:text-green-300",
     error: "bg-red-50 dark:bg-red-900 text-red-700 dark:text-red-300",
     warning: "bg-yellow-50 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-300",
-    info: "bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300",
+    info: "bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300", // Updated info to use blue
   };
   const Icon = type === 'success' ? CheckCircleIconConstant : type === 'error' ? XMarkIcon : SparklesIcon; // Simplified, add more specific icons
 

@@ -35,7 +35,7 @@ export const SplashScreen: React.FC = () => {
   }, [navigate]);
 
   return (
-    <div className="flex flex-col items-center justify-center h-full bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 dark:from-indigo-800 dark:via-purple-800 dark:to-pink-800 animate-fade-in">
+    <div className="flex flex-col items-center justify-center h-full bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-500 dark:from-blue-700 dark:via-blue-800 dark:to-cyan-600 animate-fade-in">
       <Logo size="lg" className="text-white animate-subtle-pulse mb-4" />
       <p className="text-white text-lg font-light">Your daily dose of calm.</p>
     </div>
@@ -193,7 +193,7 @@ export const AuthScreen: React.FC = () => {
         <Input label="Address (Optional)" name="address" value={formData.address} onChange={handleInputChange} />
         <Input label="Create Password" name="password" type="password" value={formData.password} onChange={handleInputChange} required />
         <Input label="Confirm Password" name="confirmPassword" type="password" value={formData.confirmPassword} onChange={handleInputChange} required />
-        <Checkbox name="termsAccepted" label={<>I agree to the <a href="#" className="text-indigo-600 dark:text-indigo-400 hover:underline">Terms of Service</a> and <a href="#" className="text-indigo-600 dark:text-indigo-400 hover:underline">Privacy Policy</a>.</>} checked={formData.termsAccepted} onChange={handleInputChange} />
+        <Checkbox name="termsAccepted" label={<>I agree to the <a href="#" className="text-blue-600 dark:text-blue-400 hover:underline">Terms of Service</a> and <a href="#" className="text-blue-600 dark:text-blue-400 hover:underline">Privacy Policy</a>.</>} checked={formData.termsAccepted} onChange={handleInputChange} />
         {error && <Alert type="error" message={error} onClose={() => setError('')} />}
         <Button type="submit" variant="primary" size="lg" className="w-full">Register</Button>
       </form>
@@ -268,6 +268,13 @@ export const SubscriptionSelectionScreen: React.FC = () => {
     // Navigate to a mock payment screen or home
     navigate('/home'); 
   };
+  
+  const getBadgeColor = (plan: SubscriptionPlan) => {
+    if (plan.isPopular) return 'bg-sky-500 text-white'; // Changed from pink
+    if (plan.isBestValue) return 'bg-teal-500 text-white'; // Changed from emerald
+    return '';
+  };
+
 
   return (
     <div className="p-4 sm:p-6 min-h-full flex flex-col">
@@ -276,7 +283,7 @@ export const SubscriptionSelectionScreen: React.FC = () => {
         {MOCK_SUBSCRIPTION_PLANS.map((plan) => (
           <Card 
             key={plan.tier} 
-            className={`p-5 border-2 transition-all ${selectedPlan === plan.tier ? 'border-indigo-500 ring-2 ring-indigo-500 dark:border-indigo-400 dark:ring-indigo-400' : 'border-transparent dark:border-slate-700'}`}
+            className={`p-5 border-2 transition-all ${selectedPlan === plan.tier ? 'border-blue-500 ring-2 ring-blue-500 dark:border-blue-400 dark:ring-blue-400' : 'border-transparent dark:border-slate-700'}`}
             onClick={() => handleSelectPlan(plan.tier)}
           >
             <div className="flex justify-between items-center">
@@ -285,9 +292,12 @@ export const SubscriptionSelectionScreen: React.FC = () => {
                 <p className="text-sm text-slate-500 dark:text-slate-400">{plan.description}</p>
               </div>
               <div className="text-right">
-                <p className="text-xl font-bold text-indigo-600 dark:text-indigo-400">{plan.price}</p>
-                {plan.isPopular && <span className="text-xs bg-pink-500 text-white px-2 py-0.5 rounded-full">Most Popular</span>}
-                {plan.isBestValue && <span className="text-xs bg-emerald-500 text-white px-2 py-0.5 rounded-full">Best Value</span>}
+                <p className="text-xl font-bold text-blue-600 dark:text-blue-400">{plan.price}</p>
+                {(plan.isPopular || plan.isBestValue) && 
+                  <span className={`text-xs px-2 py-0.5 rounded-full ${getBadgeColor(plan)}`}>
+                    {plan.isPopular ? "Most Popular" : "Best Value"}
+                  </span>
+                }
               </div>
             </div>
           </Card>
@@ -299,7 +309,7 @@ export const SubscriptionSelectionScreen: React.FC = () => {
             id="autoRenew"
             checked={autoRenew} 
             onChange={(e) => setAutoRenew(e.target.checked)} 
-            className="h-5 w-5 text-indigo-600 border-slate-300 dark:border-slate-500 rounded focus:ring-indigo-500 dark:bg-slate-600 dark:checked:bg-indigo-500"
+            className="h-5 w-5 text-blue-600 border-slate-300 dark:border-slate-500 rounded focus:ring-blue-500 dark:bg-slate-600 dark:checked:bg-blue-500"
           />
         </div>
       </div>
@@ -327,7 +337,7 @@ const CategoryChip: React.FC<{ category: string, isActive: boolean, onClick: () 
       onClick={onClick}
       className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors flex-shrink-0 snap-start
         ${isActive 
-          ? 'bg-indigo-600 text-white dark:bg-indigo-500' 
+          ? 'bg-blue-600 text-white dark:bg-blue-500' 
           : 'bg-slate-200 text-slate-700 hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600'
         }`}
     >
@@ -407,7 +417,7 @@ export const HomeScreen: React.FC = () => {
                 <h3 className="font-medium text-slate-800 dark:text-slate-100 truncate">{audio.title}</h3>
                 <p className="text-sm text-slate-500 dark:text-slate-400">{audio.artist}</p>
               </div>
-              <PlayIcon className="w-8 h-8 text-indigo-500 dark:text-indigo-400" />
+              <PlayIcon className="w-8 h-8 text-blue-500 dark:text-blue-400" />
             </Card>
           ))}
         </div>
@@ -432,7 +442,7 @@ export const HomeScreen: React.FC = () => {
       {aiRecommendations.length > 0 && (
         <section>
           <h2 className="text-xl font-semibold mb-3 text-slate-700 dark:text-slate-200 flex items-center">
-            <SparklesIcon className="w-5 h-5 mr-2 text-indigo-500 dark:text-indigo-400"/>
+            <SparklesIcon className="w-5 h-5 mr-2 text-blue-500 dark:text-blue-400"/>
             Just for You
           </h2>
           <div className="flex space-x-4 overflow-x-auto pb-2 snap-x snap-mandatory">
@@ -486,7 +496,7 @@ const AudioListItem: React.FC<{ audio: AudioContent, onPlay: (id: string) => voi
           {audio.isFavorite ? <HeartIconSolid className="w-5 h-5" /> : <HeartIconOutline className="w-5 h-5 text-slate-500 dark:text-slate-400" />}
         </Button>
         <Button variant="ghost" size="sm" onClick={() => onPlay(audio.id)} className="!p-1.5">
-          <PlayIcon className="w-6 h-6 text-indigo-500 dark:text-indigo-400" />
+          <PlayIcon className="w-6 h-6 text-blue-500 dark:text-blue-400" />
         </Button>
       </div>
     </div>
@@ -640,7 +650,7 @@ export const AudioPlayerScreen: React.FC = () => {
                 max="100" 
                 value={progress} 
                 onChange={handleSeek}
-                className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-indigo-600 dark:accent-indigo-400"
+                className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-600 dark:accent-blue-400"
               />
               <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400 mt-1">
                 <span>{formatTime(progress)}</span>
@@ -696,13 +706,13 @@ export const AudioPlayerScreen: React.FC = () => {
                 <select 
                     value={selectedPlaylist} 
                     onChange={(e) => setSelectedPlaylist(e.target.value)}
-                    className="w-full p-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-800 focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full p-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-800 focus:ring-blue-500 focus:border-blue-500"
                 >
                     <option value="" disabled>Choose playlist...</option>
                     {userPlaylists.map(pl => <option key={pl.id} value={pl.id}>{pl.name}</option>)}
                 </select>
               ) : (
-                <p className="text-slate-500 dark:text-slate-400">You have no playlists. <Link to="/library?tab=playlists" className="text-indigo-600 dark:text-indigo-400 hover:underline">Create one?</Link></p>
+                <p className="text-slate-500 dark:text-slate-400">You have no playlists. <Link to="/library?tab=playlists" className="text-blue-600 dark:text-blue-400 hover:underline">Create one?</Link></p>
               )}
               <div className="flex justify-end space-x-2">
                   <Button variant="secondary" onClick={() => setShowAddToPlaylistModal(false)}>Cancel</Button>
@@ -792,7 +802,7 @@ export const SearchScreen: React.FC = () => {
               <h3 className="text-lg font-semibold mb-2 text-slate-700 dark:text-slate-200">Trending Topics</h3>
               <div className="flex flex-wrap gap-2">
                 {trendingTopics.map(topic => (
-                  <Tag key={topic} color="bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-200" onClick={() => { setSearchTerm(topic); handleSearch(); }}>{topic}</Tag>
+                  <Tag key={topic} color="bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-200" onClick={() => { setSearchTerm(topic); handleSearch(); }}>{topic}</Tag>
                 ))}
               </div>
             </section>
@@ -890,7 +900,7 @@ export const MyLibraryScreen: React.FC = () => {
                             onClick={() => setActiveTab(tab.id)}
                             className={`whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm transition-colors
                                 ${activeTab === tab.id
-                                    ? 'border-indigo-500 text-indigo-600 dark:border-indigo-400 dark:text-indigo-300'
+                                    ? 'border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-300'
                                     : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:border-slate-600'
                                 }`}
                         >
@@ -963,7 +973,7 @@ export const SetReminderScreen: React.FC = () => {
                 
                 <div>
                     <label htmlFor="timeZone" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Time Zone</label>
-                    <select id="timeZone" value={timeZone} onChange={e => setTimeZone(e.target.value)} className="w-full p-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-800 focus:ring-indigo-500 focus:border-indigo-500">
+                    <select id="timeZone" value={timeZone} onChange={e => setTimeZone(e.target.value)} className="w-full p-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-800 focus:ring-blue-500 focus:border-blue-500">
                         {/* Simplified list, a real app would have more comprehensive timezone list */}
                         <option value={Intl.DateTimeFormat().resolvedOptions().timeZone}>{Intl.DateTimeFormat().resolvedOptions().timeZone} (Current)</option>
                         <option value="America/New_York">America/New_York (EST)</option>
@@ -973,7 +983,7 @@ export const SetReminderScreen: React.FC = () => {
                 
                 <div>
                     <label htmlFor="alertBefore" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Alerts before</label>
-                    <select id="alertBefore" value={alertBefore} onChange={e => setAlertBefore(e.target.value)} className="w-full p-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-800 focus:ring-indigo-500 focus:border-indigo-500">
+                    <select id="alertBefore" value={alertBefore} onChange={e => setAlertBefore(e.target.value)} className="w-full p-2 border border-slate-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-800 focus:ring-blue-500 focus:border-blue-500">
                         {ALERT_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
                     </select>
                 </div>
@@ -988,7 +998,7 @@ export const SetReminderScreen: React.FC = () => {
                                 type="radio"
                                 checked={repetitionType === type}
                                 onChange={() => setRepetitionType(type)}
-                                className="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500 dark:border-slate-600 dark:bg-slate-700 dark:checked:bg-indigo-500"
+                                className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-700 dark:checked:bg-blue-500"
                             />
                             <label htmlFor={`repetition-${type}`} className="ml-2 block text-sm text-slate-700 dark:text-slate-300">
                                 {type === 'every_day_indefinite' && "Every day at same time till I stop it"}
@@ -1074,7 +1084,7 @@ export const ProblemDiagnosisFormScreen: React.FC = () => {
                             key={opt}
                             onClick={() => { handleAnswer(currentQuestion.id, opt); handleNextQuestion(); }}
                             selected={answers[currentQuestion.id] === opt}
-                            className="inline-block m-1 p-3 text-base cursor-pointer hover:bg-indigo-100 dark:hover:bg-indigo-800"
+                            className="inline-block m-1 p-3 text-base cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-800"
                         >
                             {opt}
                         </Tag>
@@ -1087,9 +1097,9 @@ export const ProblemDiagnosisFormScreen: React.FC = () => {
                                 max={currentQuestion.max} 
                                 value={answers[currentQuestion.id] || currentQuestion.defaultValue}
                                 onChange={e => handleAnswer(currentQuestion.id, parseInt(e.target.value))}
-                                className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-indigo-600 dark:accent-indigo-400"
+                                className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-600 dark:accent-blue-400"
                             />
-                            <p className="text-xl font-bold text-indigo-600 dark:text-indigo-400 mt-2">{answers[currentQuestion.id] || currentQuestion.defaultValue}</p>
+                            <p className="text-xl font-bold text-blue-600 dark:text-blue-400 mt-2">{answers[currentQuestion.id] || currentQuestion.defaultValue}</p>
                         </>
                     )}
                     {currentQuestion.type === 'choice' && currentQuestion.options?.map(opt => (
@@ -1142,7 +1152,7 @@ export const PrescriptionScreen: React.FC = () => {
         <div className="flex flex-col h-full">
             <ScreenHeader title="Your Personalized Session" showBackButton />
             <div className="flex-grow p-6 flex flex-col items-center justify-center text-center">
-                <SparklesIcon className="w-16 h-16 text-indigo-500 dark:text-indigo-400 mb-4" />
+                <SparklesIcon className="w-16 h-16 text-blue-500 dark:text-blue-400 mb-4" />
                 <h2 className="text-2xl font-bold mb-2 text-slate-800 dark:text-slate-100">Here's a session for you:</h2>
                 <Card className="max-w-xs w-full my-6">
                     <img src={prescription.coverArtUrl} alt={prescription.title} className="w-full h-56 object-cover" />
@@ -1189,8 +1199,8 @@ export const ProfileScreen: React.FC = () => {
         <div className="flex flex-col h-full">
             <ScreenHeader title="Profile" />
             <div className="flex-grow overflow-y-auto">
-                <div className="p-6 text-center bg-indigo-50 dark:bg-indigo-900/30">
-                    <img src={user.avatarUrl || `https://ui-avatars.com/api/?name=${user.fullName}&background=random&size=128`} alt={user.fullName} className="w-24 h-24 rounded-full mx-auto mb-4 border-2 border-indigo-300 dark:border-indigo-600 shadow-lg"/>
+                <div className="p-6 text-center bg-blue-50 dark:bg-blue-900/30">
+                    <img src={user.avatarUrl || `https://ui-avatars.com/api/?name=${user.fullName}&background=random&size=128`} alt={user.fullName} className="w-24 h-24 rounded-full mx-auto mb-4 border-2 border-blue-300 dark:border-blue-600 shadow-lg"/>
                     <h2 className="text-xl font-semibold text-slate-800 dark:text-slate-100">{user.fullName}</h2>
                     <p className="text-sm text-slate-500 dark:text-slate-400">{user.email}</p>
                 </div>
@@ -1312,7 +1322,7 @@ export const MySubscriptionPlanScreen: React.FC = () => {
             <ScreenHeader title="My Subscription" showBackButton />
             <div className="flex-grow p-4 sm:p-6 space-y-6">
                 <Card className="p-6">
-                    <h3 className="text-xl font-semibold text-indigo-600 dark:text-indigo-400 mb-1">{currentPlan.tier} Plan</h3>
+                    <h3 className="text-xl font-semibold text-blue-600 dark:text-blue-400 mb-1">{currentPlan.tier} Plan</h3>
                     <p className="text-slate-600 dark:text-slate-300 mb-3">{currentPlan.description}</p>
                     <p className="text-sm text-slate-500 dark:text-slate-400">Renews on: January 15, 2025 (mock date)</p>
                     <p className="text-2xl font-bold text-slate-800 dark:text-slate-100 mt-2">{currentPlan.price} / {currentPlan.tier.toLowerCase().replace('ly','').replace('dai','day')}</p>
@@ -1325,7 +1335,7 @@ export const MySubscriptionPlanScreen: React.FC = () => {
                         id="autoRenewSub"
                         checked={autoRenew} 
                         onChange={(e) => setAutoRenew(e.target.checked)} 
-                        className="h-5 w-5 text-indigo-600 border-slate-300 dark:border-slate-500 rounded focus:ring-indigo-500 dark:bg-slate-600 dark:checked:bg-indigo-500"
+                        className="h-5 w-5 text-blue-600 border-slate-300 dark:border-slate-500 rounded focus:ring-blue-500 dark:bg-slate-600 dark:checked:bg-blue-500"
                     />
                 </div>
 
@@ -1368,14 +1378,14 @@ export const ReferFriendScreen: React.FC = () => {
         <div className="flex flex-col h-full">
             <ScreenHeader title="Refer a Friend" showBackButton />
             <div className="flex-grow p-6 text-center flex flex-col items-center justify-center">
-                <ShareIcon className="w-16 h-16 text-indigo-500 dark:text-indigo-400 mb-6" />
+                <ShareIcon className="w-16 h-16 text-blue-500 dark:text-blue-400 mb-6" />
                 <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-3">Share the Bliss!</h2>
                 <p className="text-slate-600 dark:text-slate-300 mb-6 max-w-md">
                     Invite your friends to Blissful and you both get 1 month of Premium for FREE when they subscribe!
                 </p>
                 <div className="bg-slate-100 dark:bg-slate-700 p-4 rounded-lg mb-6 w-full max-w-xs">
                     <p className="text-sm text-slate-500 dark:text-slate-400">Your Referral Code:</p>
-                    <p className="text-2xl font-mono font-bold text-indigo-600 dark:text-indigo-400 tracking-wider">{referralCode}</p>
+                    <p className="text-2xl font-mono font-bold text-blue-600 dark:text-blue-400 tracking-wider">{referralCode}</p>
                 </div>
                 <Button onClick={handleShare} variant="primary" size="lg" leftIcon={<ShareIcon className="w-5 h-5"/>} className="w-full max-w-xs">
                     Share Your Link
@@ -1557,11 +1567,11 @@ export const AIAssistantScreen: React.FC = () => {
                     <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                         <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-xl shadow ${
                             msg.sender === 'user' 
-                                ? 'bg-indigo-500 text-white dark:bg-indigo-600' 
+                                ? 'bg-blue-500 text-white dark:bg-blue-600' 
                                 : 'bg-slate-200 text-slate-800 dark:bg-slate-700 dark:text-slate-100'
                         }`}>
                             <p className="whitespace-pre-wrap">{msg.text}</p>
-                            <p className={`text-xs mt-1 ${msg.sender === 'user' ? 'text-indigo-200 dark:text-indigo-300 text-right' : 'text-slate-500 dark:text-slate-400'}`}>
+                            <p className={`text-xs mt-1 ${msg.sender === 'user' ? 'text-blue-200 dark:text-blue-300 text-right' : 'text-slate-500 dark:text-slate-400'}`}>
                                 {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </p>
                         </div>
@@ -1583,7 +1593,7 @@ export const AIAssistantScreen: React.FC = () => {
                     <ul className="list-disc list-inside space-y-1">
                         {groundingLinks.map((chunk, index) => chunk.web && (
                             <li key={index} className="text-xs">
-                                <a href={chunk.web.uri} target="_blank" rel="noopener noreferrer" className="text-indigo-600 dark:text-indigo-400 hover:underline">
+                                <a href={chunk.web.uri} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">
                                     {chunk.web.title || chunk.web.uri}
                                 </a>
                             </li>
@@ -1597,7 +1607,7 @@ export const AIAssistantScreen: React.FC = () => {
                     <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">Try saying:</p>
                     <div className="flex flex-wrap gap-2">
                         {suggestedPrompts.map(prompt => (
-                            <Tag key={prompt} onClick={() => handleSendMessage(prompt)} color="bg-indigo-100 dark:bg-indigo-800 text-indigo-700 dark:text-indigo-200 cursor-pointer">
+                            <Tag key={prompt} onClick={() => handleSendMessage(prompt)} color="bg-blue-100 dark:bg-blue-800 text-blue-700 dark:text-blue-200 cursor-pointer">
                                 {prompt}
                             </Tag>
                         ))}

@@ -9,9 +9,9 @@ export const DEFAULT_THEME = 'dark';
 // SVG Icons (Heroicons v2 - MIT License)
 export const LogoSymbol = ({ className = "w-10 h-10" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="48" className="stroke-current text-indigo-500 dark:text-indigo-400" strokeWidth="4"/>
-    <path d="M30 60C30 45 40 35 50 35C60 35 70 45 70 60C70 70 60 80 50 80C40 70 30 70 30 60Z" className="fill-current text-indigo-500 dark:text-indigo-400 opacity-50"/>
-    <path d="M50 20C50 20 55 30 65 30C75 30 75 20 75 20" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="text-pink-500 dark:text-pink-400"/>
+    <circle cx="50" cy="50" r="48" className="stroke-current text-blue-500 dark:text-blue-400" strokeWidth="4"/>
+    <path d="M30 60C30 45 40 35 50 35C60 35 70 45 70 60C70 70 60 80 50 80C40 70 30 70 30 60Z" className="fill-current text-blue-500 dark:text-blue-400 opacity-50"/>
+    <path d="M50 20C50 20 55 30 65 30C75 30 75 20 75 20" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="text-cyan-400 dark:text-cyan-300"/>
     <path d="M50 20C50 20 45 30 35 30C25 30 25 20 25 20" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="text-sky-500 dark:text-sky-400"/>
   </svg>
 );
@@ -249,5 +249,3 @@ export const MOCK_KIDS_AUDIO: AudioContent[] = [
 export const GEMINI_API_KEY_INFO = "process.env.API_KEY"; // Placeholder to acknowledge API key requirement
 export const GEMINI_TEXT_MODEL = "gemini-2.5-flash-preview-04-17";
 export const GEMINI_IMAGE_MODEL = "imagen-3.0-generate-002";
-
-
